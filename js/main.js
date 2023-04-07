@@ -60,3 +60,33 @@ async function fetchData() {
   }
 }
 fetchData();
+
+form.addEventListener("submit", (e) => {
+  e.preventDefault();
+
+  fetch(url, {
+    method: "POST",
+    headers: {
+      "Content-type": "application/json",
+    },
+    body: JSON.stringify({
+      title: titleInput.value,
+      email: emailInput.value,
+    }),
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      form.reset();
+      const cardItem = document.createElement("li");
+      cardList.append(cardItem);
+      cardItem.classList.add("card__item");
+      const cardTitle = document.createElement("h2");
+      cardItem.append(cardTitle);
+      cardTitle.classList.add("card__title");
+      cardTitle.textContent = data.title;
+      const cardEmail = document.createElement("p");
+      cardItem.append(cardEmail);
+      cardEmail.classList.add("card__email");
+      cardEmail.innerHTML = data.email;
+    });
+});
